@@ -1,17 +1,17 @@
+package org.example;
 
-import org.example.HRCalculator;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class HRCalculatorTest {
+
     @Test
     public void testValidMaxHR() {
-        var result = HRCalculator.calculateMaxHR(25);
-        assertEquals(195, result);
+        assertEquals(195, HRCalculator.calculateMaxHR(25));
     }
+
     @Test
-    public void testInvalidMinHR_ageTooHigh() {
+    public void testInvalidMaxHR_ageTooHigh() {
         assertThrows(IllegalArgumentException.class,
                 () -> HRCalculator.calculateMaxHR(500));
     }
@@ -21,5 +21,17 @@ public class HRCalculatorTest {
         assertThrows(IllegalArgumentException.class,
                 () -> HRCalculator.calculateMaxHR(-1));
     }
-}
 
+    @Test
+    public void testWorkoutZones() {
+        int age = 40;
+        int maxHR = HRCalculator.calculateMaxHR(age);
+
+        assertEquals("Warm-up", HRCalculator.getWorkoutZone(age, 80));
+        assertEquals("Fat Burn", HRCalculator.getWorkoutZone(age, 100));
+        assertEquals("Cardio", HRCalculator.getWorkoutZone(age, 120));
+        assertEquals("Endurance", HRCalculator.getWorkoutZone(age, 140));
+        assertEquals("Anaerobic", HRCalculator.getWorkoutZone(age, 160));
+        assertEquals("Maximum", HRCalculator.getWorkoutZone(age, 170));
+    }
+}
